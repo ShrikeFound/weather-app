@@ -6,7 +6,7 @@ const QuoteSection = () => {
 
   
   const getRandomQuote = async () => {
-    const apiURL = "https://api.quotable.io/random?tags=technology,famous-quotes"
+    const apiURL = "https://api.quotable.io/random?tags=technology"
     const response = await fetch(apiURL)
     const result = await response.json();
     setQuote(result.content)
@@ -26,7 +26,7 @@ const QuoteSection = () => {
     <div className="quote-section">
       <div className="quote-container container">
         <div className="quote-text">
-          <img src={refreshIcon} alt="refresh icon" onClick={ () => getRandomQuote()}/>
+          <img src={refreshIcon} alt="refresh icon" onClick={ getRandomQuote}/>
           <p>"{quote}"</p>
           <h5>{author}</h5>
         
