@@ -11,7 +11,7 @@ const QuoteSection = () => {
     const result = await response.json();
     setQuote(result.content)
     setAuthor(result.author)
-    console.log(result)
+    // console.log(result)
   }
 
   

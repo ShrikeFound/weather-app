@@ -1,6 +1,16 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import sunIcon from '../assets/icon-sun.svg'
 const WelcomeSection = () => {
+  const arrow = useRef()
+
+  const toggleArrowDirection = ()=> {
+    // console.log(arrow.current)
+    arrow.current.classList.toggle("arrow-down")
+    }
+
+
+
+
   return (
     <div className="welcome-section">
       <div className="container welcome-container">
@@ -13,11 +23,8 @@ const WelcomeSection = () => {
         <h3>In San Diego, CA</h3>
       </div>
       <div className="col button-col">
-        <button className="button">more
-        <b className="arrow">
-          <span class="bar left-bar"></span>
-          <span class="bar right-bar"></span>
-        </b>
+          <button className="button">more
+             <span className="arrow-circle arrow-top" ref={arrow} onClick={toggleArrowDirection}></span>
       </button>
       </div>
       

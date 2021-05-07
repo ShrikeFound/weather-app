@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ExpandedSection from './components/ExpandedSection';
 import QuoteSection from './components/QuoteSection';
 import WelcomeSection from './components/WelcomeSection';
@@ -7,7 +7,27 @@ import './Sass/App.scss'
 
 function App() {
   const [loading,setLoading] = useState(false)
-  
+  const [visitorIP,setvisitorIP] = useState("")
+
+  const fetchIP = async () => {
+    const apiKey = "73d1035011ae8663415976e71d3fe5afd0d0c88498947e27d06b15a1"
+    const response = await fetch(`https://api.ipdata.co?api-key=${apiKey}`)
+    const result = await response.json();
+    setvisitorIP(result.ip)
+  }
+
+  useEffect(() => {
+      fetchIP()    
+  },[])
+
+  const fetchTime = async () => {
+    
+  }
+
+
+
+
+
   if (loading) {
     return (
       <div className="App"><p>Loading...</p></div>
