@@ -7,7 +7,8 @@ import './Sass/App.scss'
 
 function App() {
   const [loading,setLoading] = useState(false)
-  const [visitorIP,setvisitorIP] = useState("")
+  const [visitorIP, setvisitorIP] = useState("")
+  const [timeData, setTimeData] = useState({nothing: ""})
 
   const fetchIP = async () => {
     const apiKey = "73d1035011ae8663415976e71d3fe5afd0d0c88498947e27d06b15a1"
@@ -21,11 +22,28 @@ function App() {
   },[])
 
   const fetchTime = async () => {
-    
+    console.log("fetching")
+    const response = await fetch(`http://worldtimeapi.org/api/ip/${visitorIP}`, { mode: 'no-cors' })
+    console.log(response)
+    const result = await response.json();
+    console.log(result)
+    const newTimeData = {
+      ...timeData,
+      zone: result.abbreviation,
+      datetime: result.datetime,
+      yearDay: result.day_of_year,
+      weekday: result.day_of_week,
+      yearweek: result.week_number
+    }
+    console.log(`testing ${newTimeData}`)
+    setTimeData(newTimeData)
   }
 
+  if (visitorIP) {
+    fetchTime();
+  }
 
-
+  console.log(timeData)
 
 
   if (loading) {
