@@ -1,6 +1,8 @@
 import React, { useRef } from 'react'
 import sunIcon from '../assets/icon-sun.svg'
-const WelcomeSection = () => {
+const WelcomeSection = ({ timeData,visitorIP }) => {
+  console.log(timeData)
+  console.log(visitorIP)
   const arrow = useRef()
 
   const toggleArrowDirection = ()=> {
@@ -19,8 +21,8 @@ const WelcomeSection = () => {
           <img src={sunIcon} className="icon" alt="refresh icon" />
           <h4>Good MORNING, It's currently</h4>
         </div>
-        <h1>11:37<span className="light">PST</span></h1>
-        <h3>In San Diego, CA</h3>
+          <h1>{timeData.datetime}<span className="light">{ timeData.zone}</span></h1>
+          <h3>In {visitorIP.city}, {visitorIP.region_code}</h3>
       </div>
       <div className="col button-col">
           <button className="button">more

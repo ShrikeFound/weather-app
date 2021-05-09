@@ -7,43 +7,75 @@ import './Sass/App.scss'
 
 function App() {
   const [loading,setLoading] = useState(false)
-  const [visitorIP, setvisitorIP] = useState("")
-  const [timeData, setTimeData] = useState({nothing: ""})
+  const [visitorIP, setvisitorIP] = useState({})
+  const [timeData, setTimeData] = useState({ zone: "PST", datetime: "", weekday: 1, yearday: 10, yearweek: 1 })
+  const isMorning = useState(false);
 
   const fetchIP = async () => {
-    const apiKey = "73d1035011ae8663415976e71d3fe5afd0d0c88498947e27d06b15a1"
-    const response = await fetch(`https://api.ipdata.co?api-key=${apiKey}`)
-    const result = await response.json();
-    setvisitorIP(result.ip)
+    // const apiKey = "at_ZHtok4pIJ0ABzce5FVeMnpG79cbYY"
+    try {
+      const response = await fetch(`https://freegeoip.app/json/`, {mode:'cors'})
+      const result = await response.json();
+      setvisitorIP(result)      
+    }catch(err) {
+      console.log(err)
+    }
+
+
   }
 
   useEffect(() => {
+    console.log("fetching ip:",visitorIP.ip)
       fetchIP()    
-  },[])
+  },)
+
+  const formatDate = (datei) => {
+  const date = new Date(datei)
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  let ampm = hours >= 12 ? 'pm' : 'am';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  let strTime = hours + ':' + minutes
+  return strTime
+}
+
+
 
   const fetchTime = async () => {
     console.log("fetching")
-    const response = await fetch(`http://worldtimeapi.org/api/ip/${visitorIP}`, { mode: 'no-cors' })
+    try {
+      const response = await fetch(`http://worldtimeapi.org/api/ip/${visitorIP.ip}`, {mode: 'cors'});
     console.log(response)
     const result = await response.json();
-    console.log(result)
     const newTimeData = {
       ...timeData,
       zone: result.abbreviation,
-      datetime: result.datetime,
-      yearDay: result.day_of_year,
+      datetime: formatDate(Date.parse(result.datetime)),
+      yearday: result.day_of_year,
       weekday: result.day_of_week,
       yearweek: result.week_number
     }
-    console.log(`testing ${newTimeData}`)
     setTimeData(newTimeData)
+    } catch (err) {
+      console.log(err)
+    }
+    
   }
 
-  if (visitorIP) {
-    fetchTime();
-  }
 
-  console.log(timeData)
+
+
+
+
+
+  useEffect(() =>{
+    if (visitorIP.ip) {
+      console.log("ip: ",visitorIP.ip)
+      fetchTime();
+    }
+  },)
 
 
   if (loading) {
@@ -55,17 +87,8 @@ function App() {
   return (
     <div className="App">
       <QuoteSection />
-      <WelcomeSection />
+      <WelcomeSection timeData={timeData} visitorIP={visitorIP}/>
       <ExpandedSection/>
-      {/* <h1>Lorem</h1>
-      <h2>Lorem ipsum dolor sit</h2>
-      <h3>Lorem ipsum dolor ist amet</h3>
-      <h4>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros.</h4>
-      <h5>Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis.</h5>
-      <h6>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros.</h6>
-      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.</p>
-      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.</p>
-            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.</p> */}
     </div>
   );
 }
