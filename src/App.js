@@ -77,6 +77,9 @@ function App() {
       setLoading(false)
     } catch (err) {
       console.log(err)
+      return (
+      <div className="App"><p>Sorry! Looks like there's an issue with the API. Please try again in a few minutes.</p></div>
+      )
     }
     
   }
