@@ -14,14 +14,13 @@ const WelcomeSection = ({ timeData, visitorIP, expandSection, isExpanded }) => {
 
 
 
-
   return (
     <div className={`welcome-section ${isExpanded? "expanded": ""}`}>
       <div className="container welcome-container">
         <div className="col">
         <div className="header">
-          <img src={timeData.ismorning ? sunIcon: moonIcon} className="icon" alt="refresh icon" />
-          <h4>Good {timeData.ismorning ? "morning" : "evening"}, It's currently</h4>
+          <img src={timeData.isMorning ? sunIcon: moonIcon} className="icon" alt="refresh icon" />
+          <h4>Good {timeData.isMorning ? "morning" : "evening"}, It's currently</h4>
         </div>
           <h1>{timeData.datetime}<span className="light">{ timeData.zone}</span></h1>
           <h3>In {visitorIP.city}, {visitorIP.region_code}</h3>

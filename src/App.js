@@ -4,9 +4,8 @@ import ExpandedSection from './components/ExpandedSection';
 import QuoteSection from './components/QuoteSection';
 import WelcomeSection from './components/WelcomeSection';
 import './Sass/App.scss'
-import backgroundImageMorning from './assets//desktop/bg-image-daytime.jpg'
 function App() {
-  const [loading,setLoading] = useState(false)
+  const [loading,setLoading] = useState(true)
   const [visitorIP, setvisitorIP] = useState({})
   const [timeData, setTimeData] = useState({ zone: "PST", datetime: "", weekday: 1, yearday: 10, yearweek: 1, isMorning: true })
   const [isExpanded, setIsExpanded] = useState(false);
@@ -71,10 +70,11 @@ function App() {
       yearday: result.day_of_year,
       weekday: result.day_of_week,
       yearweek: result.week_number,
-      // isMorning: true
-      isMorning: formatDate(Date.parse(result.datetime))[1]
-    }
-    setTimeData(newTimeData)
+      isMorning: true
+      // isMorning: formatDate(Date.parse(result.datetime))[1]
+      }
+      setTimeData(newTimeData)
+      setLoading(false)
     } catch (err) {
       console.log(err)
     }
@@ -97,7 +97,7 @@ function App() {
 
   if (loading) {
     return (
-      <div className="App"><p>Loading...</p></div>
+      <div className="App"><p>Hello! Please wait...</p></div>
     )
   }
   
