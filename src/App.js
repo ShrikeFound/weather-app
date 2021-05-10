@@ -27,7 +27,6 @@ function App() {
 
 
   const fetchIP = async () => {
-    // const apiKey = "at_ZHtok4pIJ0ABzce5FVeMnpG79cbYY"
     try {
       const response = await fetch(`https://freegeoip.app/json/`, { mode: 'cors' })
       const result = await response.json();
