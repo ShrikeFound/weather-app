@@ -30,9 +30,18 @@ body {
   // background-image: url("../assets/desktop/bg-image-daytime.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center;
   font-size: 1rem;
   font-family: $font-family;
   color: $white;
+}
+
+.bg-morning {
+  background-image: url("../assets/desktop/bg-image-daytime.jpg");
+}
+
+.bg-evening {
+  background-image: url("../assets/desktop/bg-image-night.jpg");
 }
 
 h1,
@@ -50,8 +59,9 @@ h1 {
 }
 
 h2 {
-  font-size: 3.1rem;
+  font-size: 1.8rem;
   line-height: 3.7rem;
+  margin: 0;
 }
 
 h3 {
@@ -64,6 +74,7 @@ h3 {
 h4,
 h6 {
   font-weight: normal;
+  margin-bottom: 0;
 }
 
 h4 {
@@ -101,6 +112,9 @@ p {
   h1 {
     font-size: 9rem;
   }
+  h2 {
+    font-size: 2.8rem;
+  }
 }
 
 @media screen and (min-width: 900px) {
@@ -116,14 +130,26 @@ p {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
+.welcome-section,
+.quote-section,
+.expanded-section {
+  transition: all ease-in-out 300ms;
+}
+
 .quote-section {
   height: 43vh;
   width: 100%;
   padding: 1px;
 }
-.welcome-section,
-.expanded-section {
+.welcome-section {
   height: 57vh;
+  width: 100%;
+  padding: 1px;
+  // border: 10px solid pink;
+}
+
+.expanded-section {
+  height: 43vh;
   width: 100%;
   padding: 1px;
   // border: 10px solid pink;
@@ -200,7 +226,7 @@ p {
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: $grey-light;
+  color: $grey-dark;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -224,7 +250,7 @@ p {
   display: inline-block;
   width: 2rem;
   height: 2rem;
-  background-color: $grey-light;
+  background-color: $grey-dark;
   border-radius: 100%;
   position: relative;
 }
@@ -244,4 +270,45 @@ p {
 }
 .arrow-circle.arrow-down::before {
   transform: rotate(135deg);
+}
+
+.quote-section.expanded {
+  transform: translateY(-45vh);
+}
+
+.welcome-section.expanded {
+  transform: translateY(-37vh);
+}
+
+.expanded-section.expanded {
+  transform: translateY(-43vh);
+}
+
+.expanded-section {
+  background-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+}
+
+.expanded-section.night {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.expanded-container {
+  display: grid;
+  height: 100%;
+}
+
+.expanded-value {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media screen and (min-width: 600px) {
+  .expanded-value {
+    display: initial;
+  }
+  .expanded-container {
+    grid-template-columns: 1fr 1fr;
+  }
 }

@@ -4,12 +4,28 @@ import ExpandedSection from './components/ExpandedSection';
 import QuoteSection from './components/QuoteSection';
 import WelcomeSection from './components/WelcomeSection';
 import './Sass/App.scss'
-
+import backgroundImageMorning from './assets//desktop/bg-image-daytime.jpg'
 function App() {
   const [loading,setLoading] = useState(false)
   const [visitorIP, setvisitorIP] = useState({})
-  const [timeData, setTimeData] = useState({ zone: "PST", datetime: "", weekday: 1, yearday: 10, yearweek: 1 })
-  const isMorning = useState(false);
+  const [timeData, setTimeData] = useState({ zone: "PST", datetime: "", weekday: 1, yearday: 10, yearweek: 1, isMorning: true })
+  const [isExpanded, setIsExpanded] = useState(false);
+  if (timeData.isMorning === false) {
+    document.body.classList.add('bg-evening')
+    document.body.classList.remove('bg-morning')
+  } else {
+    document.body.classList.add('bg-morning')
+    document.body.classList.remove('bg-evening')
+  }
+
+
+  const expandSection = () => {
+    console.log("expanding section!");
+    setIsExpanded(!isExpanded)
+
+  }
+
+
 
   const fetchIP = async () => {
     // const apiKey = "at_ZHtok4pIJ0ABzce5FVeMnpG79cbYY"
@@ -25,20 +41,19 @@ function App() {
   }
 
   useEffect(() => {
-    console.log("fetching ip:",visitorIP.ip)
       fetchIP()    
-  },)
+  },[])
 
   const formatDate = (datei) => {
   const date = new Date(datei)
   let hours = date.getHours();
   let minutes = date.getMinutes();
-  let ampm = hours >= 12 ? 'pm' : 'am';
+  let ampm = hours >= 12 ? false : true;
   hours = hours % 12;
   hours = hours ? hours : 12; // the hour '0' should be '12'
   minutes = minutes < 10 ? '0'+minutes : minutes;
   let strTime = hours + ':' + minutes
-  return strTime
+  return [strTime,ampm]
 }
 
 
@@ -52,10 +67,12 @@ function App() {
     const newTimeData = {
       ...timeData,
       zone: result.abbreviation,
-      datetime: formatDate(Date.parse(result.datetime)),
+      datetime: formatDate(Date.parse(result.datetime))[0],
       yearday: result.day_of_year,
       weekday: result.day_of_week,
-      yearweek: result.week_number
+      yearweek: result.week_number,
+      // isMorning: true
+      isMorning: formatDate(Date.parse(result.datetime))[1]
     }
     setTimeData(newTimeData)
     } catch (err) {
@@ -75,7 +92,7 @@ function App() {
       console.log("ip: ",visitorIP.ip)
       fetchTime();
     }
-  },)
+  },[visitorIP])
 
 
   if (loading) {
@@ -86,9 +103,9 @@ function App() {
   
   return (
     <div className="App">
-      <QuoteSection />
-      <WelcomeSection timeData={timeData} visitorIP={visitorIP}/>
-      <ExpandedSection/>
+      <QuoteSection isExpanded={isExpanded} />
+      <WelcomeSection timeData={timeData} visitorIP={visitorIP} expandSection={expandSection} isExpanded={isExpanded}/>
+      <ExpandedSection isExpanded={isExpanded} isMorning = {timeData.isMorning} />
     </div>
   );
 }

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import refreshIcon from '../assets/icon-refresh.svg'
-const QuoteSection = () => {
+const QuoteSection = ({ isExpanded }) => {
   const [quote, setQuote] = useState("")
-  const [author,setAuthor] = useState("")
+  const [author, setAuthor] = useState("")
 
   
   const getRandomQuote = async () => {
@@ -23,7 +23,7 @@ const QuoteSection = () => {
   }, [])
 
   return (
-    <div className="quote-section">
+    <div className={`quote-section ${isExpanded ? "expanded" : ""}`}>
       <div className="quote-container container">
         <div className="quote-text">
           <img src={refreshIcon} alt="refresh icon" onClick={ getRandomQuote}/>
