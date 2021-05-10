@@ -2,8 +2,8 @@ import React, { useRef } from 'react'
 import sunIcon from '../assets/icon-sun.svg'
 import moonIcon from '../assets/icon-moon.svg'
 const WelcomeSection = ({ timeData, visitorIP, expandSection, isExpanded }) => {
-  console.log(timeData)
-  console.log(visitorIP)
+  // console.log(timeData)
+  // console.log(visitorIP)
   const arrow = useRef()
 
   const toggleArrowDirection = () => {

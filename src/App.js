@@ -20,7 +20,7 @@ function App() {
 
 
   const expandSection = () => {
-    console.log("expanding section!");
+    // console.log("expanding section!");
     setIsExpanded(!isExpanded)
 
   }
@@ -59,10 +59,10 @@ function App() {
 
 
   const fetchTime = async () => {
-    console.log("fetching")
+    // console.log("fetching")
     try {
       const response = await fetch(`http://worldtimeapi.org/api/ip/${visitorIP.ip}`, {mode: 'cors'});
-    console.log(response)
+    // console.log(response)
     const result = await response.json();
     const newTimeData = {
       ...timeData,
@@ -89,7 +89,7 @@ function App() {
 
   useEffect(() =>{
     if (visitorIP.ip) {
-      console.log("ip: ",visitorIP.ip)
+      // console.log("ip: ",visitorIP.ip)
       fetchTime();
     }
   },[visitorIP])
@@ -105,7 +105,7 @@ function App() {
     <div className="App">
       <QuoteSection isExpanded={isExpanded} />
       <WelcomeSection timeData={timeData} visitorIP={visitorIP} expandSection={expandSection} isExpanded={isExpanded}/>
-      <ExpandedSection isExpanded={isExpanded} isMorning = {timeData.isMorning} />
+      <ExpandedSection isExpanded={isExpanded} isMorning={timeData.isMorning} timeData={timeData}  visitorIP={visitorIP}  />
     </div>
   );
 }
